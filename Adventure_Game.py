@@ -3,11 +3,13 @@ import random
 
 
 def print_pause(message):
+    # This code gives the print delay for all the text in the game.
     print(message)
     time.sleep(1.25)
 
 
 def valid_input(prompt, options):
+    # This code will test if input from the user is actually a choice.
     while True:
         choice = input(prompt).lower()
         for option in options:
@@ -17,17 +19,24 @@ def valid_input(prompt, options):
 
 
 def play_game():
+    # This is the function that runs the game.
 
+    # This list holds any items the player picks up.
     items = []
 
+    # This list will hold the damage that the player receives.
     player_health = []
 
+    # This list holds any status the player acquires.
     player_status = []
 
+    # This list will hold the damage that the Werewolf receives.
     Werewolf_health = []
 
+    # This list will hold any status the Werewolf receives.
     werewolf_status = []
 
+    # This runs the scenario
     scenario_1(
         items,
         player_health,
@@ -37,6 +46,7 @@ def play_game():
 
 
 def play_again():
+    # This function asks the player if they want to play again.
     play = valid_input("Would you like to play again?\n" "Yes or No?\n",
                        ["yes", "no"]).lower()
     if "yes" in play:
@@ -46,16 +56,21 @@ def play_again():
 
 
 def silversword_attack(Werewolf_health):
+    # This function is how the player does damage to the Werewolf
+    # with the silversword
     print_pause("You attack the Werewolf with the silversword.")
     Werewolf_health.append(random.randint(1, 6) + 4)
 
 
 def unarmed_attack(Werewolf_health):
+    # This function is how the player does damage to the Werewolf
+    # when they don't have a weapon
     print_pause("Stand or die!\n")
     Werewolf_health.append(random.randint(1, 6))
 
 
 def wolf_damage_check_silversword(Werewolf_health, werewolf_status):
+    # This function evaluates the damage the player did.
     if sum(Werewolf_health) <= 6:
         print_pause("It was a weak attack.")
         print_pause(
@@ -74,10 +89,12 @@ def wolf_damage_check_silversword(Werewolf_health, werewolf_status):
             "connects with the werewolf's neck, "
             "sending its head flying and "
             "causing blood to spray from its neck!\n")
+        # If the Werewolf is killed this appends the Werewolf's status
         werewolf_status.append("dead")
 
 
 def wolf_damage_check_unarmed(Werewolf_health, werewolf_status):
+    # This function evaluates the damage the player did.
     if sum(Werewolf_health) <= 6:
         print_pause("You punch the werewolf in the ribs.")
         print_pause("It doesn't even flinch.\n")
@@ -94,15 +111,19 @@ def wolf_damage_check_unarmed(Werewolf_health, werewolf_status):
         print_pause("You put all your energy into one last swing.")
         print_pause("Your punch knocks it down.")
         print_pause("You get on top of it and stomp its throat.\n")
+        # If the Werewolf is killed this appends the Werewolf's status
         werewolf_status.append("dead")
 
 
 def battleaxe_attack(Werewolf_health):
+    # This function is how the player deals damage to the Werewolf
+    # with the battleaxe
     print_pause("You attack the Werewolf with the battleaxe.\n")
     Werewolf_health.append(random.randint(1, 6) + 2)
 
 
 def wolf_damage_check_battleaxe(Werewolf_health, werewolf_status):
+    # This function evaluates the damage the player did.
     if sum(Werewolf_health) <= 6:
         print_pause("It was a weak attack.")
         print_pause("It creates a small cut on the werewolf's shoulder.")
@@ -114,10 +135,12 @@ def wolf_damage_check_battleaxe(Werewolf_health, werewolf_status):
         print_pause("It was a critical hit!")
         print_pause("The battleaxe comes down right on the werewolf's head."
                     "The axe splits the werewolf's head in two.\n")
+        # If the Werewolf is killed this appends the Werewolf's status
         werewolf_status.append("dead")
 
 
 def player_damage_check(player_health, player_status):
+    # This function checks how much damage the Werewolf did
     if sum(player_health) <= 4:
         print_pause("The werewolf swipes at you with its claws")
         print_pause("Thankfully, it was a weak swipe. You're hurt, "
@@ -141,14 +164,18 @@ def player_damage_check(player_health, player_status):
         print_pause("Before you can even try to get up, "
                     "the were wolf is already on top of you.")
         print_pause("It rips your throat out and everything goes black\n")
+        # If the player is killed their status is appended with 'dead'
         player_status.append("dead")
         print_pause("GAME OVER\n")
+        # Then the game asks the player if they want to play again.
         play_again()
 
 
 def werewolf_attack(player_health, items, player_status):
+    # This function defines how the Werewolf attacks
     print_pause("The werewolf counter-attacks")
     player_health.append(random.randint(2, 10) + 2)
+    # These if statements subtract damage done to the player based on armor.
     if "chainmail" in items:
         player_health.append(-2)
     if "heavy armor" in items:
@@ -162,6 +189,9 @@ def scenario_1(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # This function calls the intro and then runs the game
+    # As a side note when I was coming up with this originally
+    # there was going to be multiple scenarios, I still may do that.
     scenario_1_intro()
     scenario_1_game(
         items,
@@ -171,6 +201,7 @@ def scenario_1(
 
 
 def scenario_1_intro():
+    # This is the intro to the game.
     print_pause("You wake up in a forest.")
     print_pause("The forest is too dense to make out what time it is.")
     print_pause("Looking around for a few moments, "
@@ -188,6 +219,8 @@ def scenario_1_game(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # This function asks the player to pick a direction
+    # then the game runs their choice.
     print_pause("Pick a direction to go: ")
     direction = valid_input("1. There is a faint path on the left\n"
                             "2. Make your way forward.\n"
@@ -219,6 +252,7 @@ def faint_path(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # This begins the faint path choice
     print_pause("You choose to follow the faint path on your left.")
     print_pause("It seems as if this path hasn't been used in years.")
     print_pause("After following the path for some time, "
@@ -240,6 +274,7 @@ def faint_path_dilemma(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # This gives the player a choice to investigate the prompt or keep moving.
     print_pause("Investigate the cottage? Or keep following the path past it?")
     choice = valid_input("1. Investigate the cottage.\n"
                          "2. Move past it.\n", ["1", "2"])
@@ -265,6 +300,8 @@ def cottage(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # If the player investigates the cottage, they acquire the silversword,
+    # thick leather boots, and chainmail.
     print_pause("You approach the cottage, you see the door is still intact.")
     print_pause("You open the door and enter the remains of the cottage.")
     print_pause("You see a skeleton in chainmail slumped in the corner, "
@@ -304,15 +341,18 @@ def cottage_path(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # The player returns to the path and their prior choice impacts the game.
     print_pause("As you start going down the path you hear that howl again. "
                 "This time it sounds as if it's directly on your right. "
                 "You run as fast as you can, but hear a rhythmic thumping "
                 "behind you.")
     print_pause("Something's chasing you! And it's catching up!")
+    # This asks the player if they want to attempt to fight.
     choice_2 = valid_input("What do you do?\n"
                            "1. Turn and fight?\n"
                            "2. Keep running!\n", ["1", "2"])
     if choice_2 == '1':
+        # If the player says yes, the fight begins
         print_pause("You turn and face whatever it is.")
         print_pause("It's a werewolf!")
         fight_1(
@@ -326,6 +366,9 @@ def cottage_path(
                     "but whatever is chasing you is too fast.")
         print_pause("You feel a sharp pain as something bites you right calf.")
         print_pause("Falling to the ground, you turn to look at what bit you.")
+        # These two if statements determine the text that is displayed.
+        # If the player has the silversword, they know that there is a werewolf
+        # If they don't, they don't know.
         if "silversword" in items:
             print_pause("You look down and see the werewolf has its fangs are"
                         " sunk into your calf.")
@@ -334,6 +377,7 @@ def cottage_path(
                         "Its fangs are deep in your calf")
         print_pause("You kick it in the face. It recoils and you scramble "
                     "to your feet.")
+        # This section damages the player based on possession of the boots.
         if "thick leather boots" in items:
             print_pause("Those leather boots protected you from being hurt "
                         "too badly. Although you're bleeding, "
@@ -343,6 +387,7 @@ def cottage_path(
             player_health.append(2)
             print_pause("You experience some minor injuries\n")
             player_status.append("minor injuries")
+        # This begins the fight
         fight_1(
             items,
             Werewolf_health,
@@ -358,6 +403,10 @@ def fight_1(
         player_status,
         werewolf_status):
     if "silversword" in items:
+        # If the player as the silversword they fight with it
+        # This for loop has the player and werewolf attack each other,
+        # and check damage.
+        # If either combatant is dead the loop ends.
         for attacks in range(5):
             silversword_attack(Werewolf_health)
             wolf_damage_check_silversword(Werewolf_health, werewolf_status)
@@ -378,10 +427,13 @@ def fight_1(
             if "dead" in player_status:
                 break
     if "dead" not in player_status:
+        # If the player kills the werewolf they proceed to the end.
         faint_path_end(player_status)
 
 
 def faint_path_end(player_status):
+    # The player's status is checked and they receive a different ending
+    # based on that status.
     if "minor injuries" in player_status:
         print_pause("With the werewolf defeated, you continue along the path."
                     "You follow it for what seems like hours.")
@@ -424,6 +476,7 @@ def forward(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # This function begins the forward path.
     print_pause("You decide to move forward.")
     print_pause("After trudging through the undergrowth for some time, "
                 "you come upon a clearing. "
@@ -446,6 +499,8 @@ def forward_dilemma(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # This function prompts the player to make a choice betwee looting
+    # the corpses or not.
     print_pause("This is a grim place, "
                 "but there could be useful materials around.")
     choice_2 = valid_input("1. Look around and see what you can take.\n"
@@ -472,6 +527,8 @@ def loot_the_corpses(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # If the player decides to loot the corpses, they receive another prompt.
+    # This prompt will give them a choice between heavy armor or leather armor.
     print_pause("You decide to loot the corpses, "
                 "they don't need this anymore anyway.")
     print_pause("After looking around you find a corpse with a nice suit of "
@@ -480,16 +537,19 @@ def loot_the_corpses(
     choice_3 = valid_input("1. The the heavy armor.\n"
                            "2. Leave it and keep looking.\n", ["1", "2"])
     if choice_3 == '1':
+        # If the player selects '1', they acquire the heavy armor
         print_pause("It takes some time, but, "
                     "you strip the corpse of the armor and put it on.")
         items.append("heavy armor")
     elif choice_3 == '2':
+        # If the player selects '2', they acquire the leather armor
         print_pause("You decide to keep looking for a better choice.")
         print_pause("You find a lighter set of leather armor.")
         items.append("leather armor")
     print_pause("Now that you have some armor, "
                 "you start looking for a weapon.")
     print_pause("You walk around once more and a battleaxe catches your eye.")
+    # The player acquires the battleaxe regardless of prior choice.
     items.append("battleaxe")
     print_pause("Now that you're armed and armored it's time to get moving.")
     forward_again(
@@ -506,6 +566,7 @@ def forward_again(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # The player continues forward.
     print_pause("You begin making your way through the undergrowth again. "
                 "After some time, you decide to take a break and rest.")
     print_pause("You haven't heard anything like those howls from earlier.")
@@ -518,7 +579,9 @@ def forward_again(
     print_pause("Something's not right though. You turn around.")
     print_pause("You can't see anything, but you know something's there.")
     if "battleaxe" in items:
+        # This displays a different message if the player has the battleaxe.
         print_pause("Gripping your battleaxe with both hands and get ready.")
+    # This begins an unavoidable dilemma
     Sudden_choice(
         items,
         player_health,
@@ -533,6 +596,8 @@ def Sudden_choice(
         player_status,
         Werewolf_health,
         werewolf_status):
+    # This code gives the player a choice and the game performs something
+    # different based on several different factors.
     print_pause("Realizing you know something is wrong, "
                 "something rushes out of some bushes at you!")
     choice_4 = valid_input("It's a werewolf! It throws itself at you!\n"
@@ -541,6 +606,7 @@ def Sudden_choice(
                            "3. Counter charge\n",
                            ["1", "2", "3"])
     if choice_4 == '1' and "heavy armor" in items:
+        # This situation punishses the player
         print_pause("You try to dodge the beast, "
                     "but your heavy armor slows you down.")
         print_pause("The werewolf's charge hits you and knocks you down. "
@@ -555,6 +621,7 @@ def Sudden_choice(
             player_status,
             werewolf_status)
     elif choice_4 == '1' and "heavy armor" or "battleaxe" not in items:
+        # This situation has no negative or positive outcomes.
         print_pause("You step out of the way just in time and "
                     "prepare to attack.")
         fight_2(
@@ -564,6 +631,7 @@ def Sudden_choice(
             player_status,
             werewolf_status)
     elif choice_4 == '2' and "battleaxe" in items:
+        # This situation rewards the player
         print_pause("You deflect the werewolf's charge with a "
                     "heavy swing from the battleaxe.")
         print_pause("Your swing severs one of its hands.")
@@ -577,6 +645,7 @@ def Sudden_choice(
             player_status,
             werewolf_status)
     elif choice_4 == '3' and "heavy armor" in items:
+        # This choice results in an instant victory
         print_pause("You decide to rush at the monster with your "
                     "battleaxe held high.")
         print_pause("Fortune favors the brave!")
@@ -586,6 +655,7 @@ def Sudden_choice(
                     "its head in half!")
         forward_end(player_status)
     elif choice_4 == '3' and "heavy armor" not in items:
+        # This choice results in instant failure
         print_pause("You charge at the werewolf.")
         print_pause("The two of you crash into each other.")
         print_pause("You didn't have the mass for this to be a good idea.")
@@ -602,6 +672,8 @@ def fight_2(
         player_health,
         player_status,
         werewolf_status):
+    # This function begins the fight sequence.
+    # The player and the werewolf fight until one is dead.
     if "battleaxe" in items:
         for attacks in range(5):
             battleaxe_attack(Werewolf_health)
@@ -629,6 +701,8 @@ def fight_2(
 
 
 def forward_end(player_status):
+    # This proceeds to the end of the game, but, if the player is critically
+    # injured there is a different ending.
     print_pause("With the werewolf dead, you turn around and exit the forest.")
     print_pause("You walk into a meadow, and in the distance"
                 " is a village, beyond that is a castle.")
@@ -650,6 +724,8 @@ def forward_end(player_status):
 
 
 def right(items, werewolf_status):
+    # This choice is the simplest of the three (left, forward, right)
+    # This begins the right path
     print_pause("You decide to start making your way to the right.")
     print_pause("After navigating through the tress for some time, "
                 "you hear the faint sound of water running.")
@@ -673,6 +749,8 @@ def right(items, werewolf_status):
 
 
 def right_dilemma(items, werewolf_status):
+    # This function creates some tension and makes the player make a chocie
+    # between the hatchet or the mushrooms.
     print_pause("There's still a hatchet in the corpse's left hand.")
     print_pause("More useful than mushrooms!")
     print("You hear another series of howls, they're much closer this time.")
@@ -694,6 +772,9 @@ def right_dilemma(items, werewolf_status):
 
 
 def right_split_decision(items, werewolf_status):
+    # This function determines what happens to the player.
+    # There is a chance of failure and success regardless of what the player
+    # chose before.
     print_pause("You rush into the water and "
                 "wade across the river as fast as you can.")
     print_pause("After making it to the other side you pause and "
@@ -704,6 +785,8 @@ def right_split_decision(items, werewolf_status):
                 "It's a werewolf!")
     print_pause("It gets on top of you, think fast!")
     if "mushroom" in items:
+        # These two statements determine what happens to the player if they
+        # chose the mushroom.
         print_pause("You try to shove the mushroom into the werewolf's mouth!")
         mushroom_roll = random.randint(1, 6)
         mushroom_roll
@@ -726,6 +809,8 @@ def right_split_decision(items, werewolf_status):
             print_pause("GAME OVER!")
             play_again()
     if "hatchet" in items:
+        # These two statements determine what happens to the player if they
+        # chose the hatchet.
         print_pause("You try to strike the werewolf with the hatchet!")
         hatchet_roll = random.randint(1, 6)
         hatchet_roll
@@ -747,6 +832,7 @@ def right_split_decision(items, werewolf_status):
 
 
 def right_end():
+    # If the player was successful they reach the end of game.
     print_pause("After running until you feel like you're going to collapse, "
                 "you notice that the forest is starting to thin.")
     print_pause("You stop and catch your breath. After a few moments you "
@@ -755,6 +841,8 @@ def right_end():
                 "into farmland.")
     print_pause("You've made it out!")
     play_again()
+
+# This runs the game
 
 
 play_game()
